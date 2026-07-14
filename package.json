@@ -1,0 +1,13 @@
+{
+  "name": "dio-nodejs",
+  "version": "1.0.0",
+  "description": "nodejs-studies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Hycaro Phillype",
+  "license": "ISC",
+  "type": "commonjs"
+}
