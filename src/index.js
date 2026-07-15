@@ -45,3 +45,21 @@ const player6 = {
   PODER: 10,
   PONTOS: 0,
 };
+
+async function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+
+async function playRaceEngine(charater1, charater2) {
+  for (let round = 1; round <= 5; round++) {
+    console.log(`\n🏁🚦 RODADA ${round} COMEÇANDO...\n`);
+  }
+}
+
+(async function main() {
+  console.log(
+    `🏁🚦 CORRIDA ENTRE ${player1.NOME} E ${player2.NOME} COMEÇÃNDO...\n`,
+  );
+
+  await playRaceEngine(player1, player2);
+})();
