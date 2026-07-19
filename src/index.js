@@ -1,3 +1,10 @@
+const readline = require("readline");
+
+const r1 = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 const player1 = {
   NOME: "Mario",
   VELOCIDADE: 8,
@@ -45,6 +52,8 @@ const player6 = {
   PODER: 10,
   PONTOS: 0,
 };
+
+const players = [player1, player2, player3, player4, player5, player6];
 
 async function rollDice() {
   return Math.floor(Math.random() * 6) + 1;
@@ -104,7 +113,7 @@ async function playRaceEngine(charater1, charater2) {
       await logRollResult(
         charater2.NOME,
         "velocidade",
-        diceResult1,
+        diceResult2,
         charater2.VELOCIDADE,
       );
     }
@@ -122,7 +131,7 @@ async function playRaceEngine(charater1, charater2) {
       await logRollResult(
         charater2.NOME,
         "manobrabilidade",
-        diceResult1,
+        diceResult2,
         charater2.MANOBRABLIDADE,
       );
     }
@@ -175,6 +184,11 @@ async function playRaceEngine(charater1, charater2) {
     // console.log("Teste 2:", toltalTestSkill2);
     // console.log("Bloco:", block);
 
+    // console.log("===== DEBUG =====");
+    // console.log("Jogador 1:", charater1.NOME, toltalTestSkill1);
+    // console.log("Jogador 2:", charater2.NOME, toltalTestSkill2);
+    // console.log("=================");
+
     if (toltalTestSkill1 > toltalTestSkill2) {
       console.log(`${charater1.NOME} venceu essa rodada, marcou 1 ponto! `);
       charater1.PONTOS++;
@@ -200,10 +214,41 @@ async function declareWinner(charater1, charater2) {
 }
 
 (async function main() {
+  console.log("========== PERSONAGENS ==========");
+
+  for (let i = 0; i < players.length; i++) {
+    console.log(i + 1, "-", players[i].NOME);
+  }
+  console.log("");
+
+  const choose1 = await question("Escolha um jogador: ");
+  const indice1 = Number(choose1) - 1;
+  const play1 = players[indice1];
+
+  const choose2 = await question("Escolha o 2° jogador: ");
+  const indice2 = Number(choose2) - 1;
+  const play2 = players[indice2];
+
+  if (indice1 === indice2) {
+    console.log("Escolha jogadores diferentes. ");
+    r1.close();
+    return;
+  }
+
+  function question(txt) {
+    return new Promise((resolve) => {
+      r1.question(txt, (response) => {
+        resolve(response);
+      });
+    });
+  }
+
   console.log(
-    `🏁🚦 CORRIDA ENTRE ${player1.NOME} E ${player2.NOME} COMEÇÃNDO...\n`,
+    `🏁🚦 CORRIDA ENTRE ${play1.NOME} E ${play2.NOME} COMEÇÃNDO...\n`,
   );
 
-  await playRaceEngine(player1, player2);
-  await declareWinner(player1, player2);
+  await playRaceEngine(play1, play2);
+  await declareWinner(play1, play2);
+
+  r1.close();
 })();
